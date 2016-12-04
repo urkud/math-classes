@@ -51,13 +51,12 @@ Proof.
   now rewrite <-associativity, right_inverse, right_identity.
 Qed.
 
-Lemma negate_sg_op_distr `{!AbGroup G} x y: -(x & y) = -x & -y.
+Lemma negate_sg_op_distr x y: -(x & y) = -y & -x.
 Proof.
-  rewrite <-(left_identity (-x & -y)).
+  rewrite <-(left_identity (-y & -x)).
   rewrite <-(left_inverse (x & y)).
   rewrite <-associativity.
   rewrite <-associativity.
-  rewrite (commutativity (-x) (-y)).
   rewrite (associativity y).
   rewrite right_inverse.
   rewrite left_identity.
