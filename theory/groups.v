@@ -27,7 +27,7 @@ Qed.
 
 Global Instance: Injective (-).
 Proof.
-  repeat (split; try apply _).
+  split; try apply _.
   intros x y E.
   now rewrite <-(involutive x), <-(involutive y), E.
 Qed.
