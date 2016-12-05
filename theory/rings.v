@@ -186,30 +186,28 @@ Section ring_props.
   Proof. intro x; rewrite negate_0; apply plus_0_r. Qed.
 
   Lemma equal_by_zero_sum x y : x - y = 0 ↔ x = y.
-  Proof.
-    split; intros E.
-     rewrite <- (plus_0_l y). rewrite <- E. ring.
-    rewrite E. ring.
-  Qed.
+  Proof. apply groups.equal_by_unit_sg_op_r. Qed.
 
   Lemma flip_negate x y : -x = y ↔ x = -y.
-  Proof. split; intros E. now rewrite <-E, involutive. now rewrite E, involutive. Qed.
+  Proof. apply groups.flip_negate. Qed.
 
   Lemma flip_negate_0 x : -x = 0 ↔ x = 0.
-  Proof. now rewrite flip_negate, negate_0. Qed.
+  Proof. apply groups.flip_negate_mon_unit. Qed.
 
   Lemma flip_negate_ne_0 x : -x ≠ 0 ↔ x ≠ 0.
-  Proof. split; intros E ?; apply E; now apply flip_negate_0. Qed.
+  Proof. apply groups.flip_negate_ne_mon_unit. Qed.
 
   Lemma negate_zero_prod_l x y : -x * y = 0 ↔ x * y = 0.
   Proof.
-    split; intros E.
-     apply (injective (-)). now rewrite negate_mult_distr_l, negate_0.
-    apply (injective (-)). now rewrite negate_mult_distr_l, negate_involutive, negate_0.
+    rewrite <- negate_mult_distr_l.
+    apply flip_negate_0.
   Qed.
 
   Lemma negate_zero_prod_r x y : x * -y = 0 ↔ x * y = 0.
-  Proof. rewrite (commutativity x (-y)), (commutativity x y). apply negate_zero_prod_l. Qed.
+  Proof.
+    rewrite <- negate_mult_distr_r.
+    apply flip_negate_0.
+  Qed.
 
   Lemma unit_no_zero_divisor (x : R) {unit : RingUnit x}: ¬ZeroDivisor x.
   Proof.
