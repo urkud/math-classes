@@ -43,12 +43,24 @@ Proof.
   now rewrite associativity, left_inverse, left_identity.
 Qed.
 
+Lemma unit_unique_r x i : x & i = x → i = mon_unit.
+  intro.
+  apply (left_cancellation (&) x).
+  now rewrite right_identity.
+Qed.
+
 Global Instance: ∀ z : G, RightCancellation (&) z.
 Proof.
   intros z x y E.
   rewrite <-(right_identity x), <-(right_inverse z), associativity.
   rewrite E.
   now rewrite <-associativity, right_inverse, right_identity.
+Qed.
+
+Lemma unit_unique_l x i : i & x = x → i = mon_unit.
+  intro.
+  apply (right_cancellation (&) x).
+  now rewrite left_identity.
 Qed.
 
 Lemma negate_sg_op_distr x y: -(x & y) = -y & -x.
