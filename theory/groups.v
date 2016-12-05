@@ -113,7 +113,14 @@ Qed.
 End group_props.
 
 Section groupmor_props.
-  Context `{Group A} `{Group B} {f : A → B} `{!Monoid_Morphism f}.
+  Context `{Group A} `{Group B} {f : A → B} `{!SemiGroup_Morphism f}.
+
+  Instance group_morphism : Monoid_Morphism f.
+  Proof.
+    split; try apply _.
+    apply (unit_unique_r (f mon_unit)).
+    now rewrite <- preserves_sg_op, right_identity.
+  Qed.
 
   Lemma preserves_negate x : f (-x) = -f x.
   Proof.
