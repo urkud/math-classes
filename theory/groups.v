@@ -1,7 +1,7 @@
 Require
   MathClasses.theory.setoids.
 Require Import
-  Coq.Classes.Morphisms MathClasses.interfaces.abstract_algebra.
+  Coq.Classes.Morphisms Coq.Classes.Morphisms_Prop MathClasses.interfaces.abstract_algebra.
 
 Section semigroup_props.
 Context `{SemiGroup G}.
@@ -62,6 +62,41 @@ Proof.
   rewrite left_identity.
   rewrite right_inverse.
   now rewrite right_identity.
+Qed.
+
+Lemma flip_negate x y : -x = y ↔ x = -y.
+Proof.
+  split; intros E; [rewrite <-E | rewrite E]; now rewrite involutive.
+Qed.
+
+Lemma flip_negate_mon_unit x : -x = mon_unit ↔ x = mon_unit.
+Proof. now rewrite flip_negate, negate_mon_unit. Qed.
+
+Lemma flip_negate_ne_mon_unit x : -x ≠ mon_unit ↔ x ≠ mon_unit.
+Proof. apply not_iff_morphism, flip_negate_mon_unit. Qed.
+
+Lemma equal_by_unit_sg_op_r x y : x & (-y) = mon_unit ↔ x = y.
+Proof.
+  split; intros E.
+  - now rewrite
+    <- (left_identity y),
+    <- E,
+    <- associativity,
+    left_inverse,
+    right_identity.
+  - now rewrite E, right_inverse.
+Qed.
+
+Lemma equal_by_unit_sg_op_l x y: (-x) & y = mon_unit ↔ x = y.
+Proof.
+  split; intros E.
+  - now rewrite
+      <- (right_identity x),
+      <- E,
+      associativity,
+      right_inverse,
+      left_identity.
+  - now rewrite E, left_inverse.
 Qed.
 End group_props.
 
