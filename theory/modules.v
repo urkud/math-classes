@@ -15,7 +15,7 @@ Section Module_Lemmas.
 
   Lemma mult_rzero : forall x : M, 0 · x = mon_unit.
     intros.
-    apply (mon_unit_unique (0 · x) (0 · x)).
+    apply (unit_unique_r (0 · x) (0 · x)).
     rewrite <- distribute_r.
     apply scalar_mult_proper.
      - ring. (* 0 + 0 = 0 *)

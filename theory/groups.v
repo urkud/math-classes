@@ -43,8 +43,8 @@ Proof.
   now rewrite associativity, left_inverse, left_identity.
 Qed.
 
-Lemma mon_unit_unique : forall x i, x & i = x -> i = mon_unit.
-  intros x i Hyp.
+Lemma unit_unique_r x i : x & i = x → i = mon_unit.
+  intro.
   apply (left_cancellation (&) x).
   now rewrite right_identity.
 Qed.
@@ -55,6 +55,12 @@ Proof.
   rewrite <-(right_identity x), <-(right_inverse z), associativity.
   rewrite E.
   now rewrite <-associativity, right_inverse, right_identity.
+Qed.
+
+Lemma unit_unique_l x i : i & x = x → i = mon_unit.
+  intro.
+  apply (right_cancellation (&) x).
+  now rewrite left_identity.
 Qed.
 
 Lemma negate_sg_op_distr x y: -(x & y) = -y & -x.
@@ -107,7 +113,14 @@ Qed.
 End group_props.
 
 Section groupmor_props.
-  Context `{Group A} `{Group B} {f : A → B} `{!Monoid_Morphism f}.
+  Context `{Group A} `{Group B} {f : A → B} `{!SemiGroup_Morphism f}.
+
+  Instance group_morphism : Monoid_Morphism f.
+  Proof.
+    split; try apply _.
+    apply (unit_unique_r (f mon_unit)).
+    now rewrite <- preserves_sg_op, right_identity.
+  Qed.
 
   Lemma preserves_negate x : f (-x) = -f x.
   Proof.
